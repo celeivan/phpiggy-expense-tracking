@@ -1,0 +1,60 @@
+version: '3'
+
+networks:
+  net-phpiggy:
+
+services:
+  app:
+    image: nginx:stable-alpine
+    ports:
+      - "9123:80"
+    volumes:
+      - ./be-phpiggy:/var/www/html:delegated
+      - ./dockerfiles/nginx/:/etc/nginx/conf.d/
+    depends_on:
+      - php
+    networks:
+      - net-phpiggy
+  # TODO fix mysql, root password isnt set when creating image 
+  mysql: 
+    image: mysql:8.0.33
+    restart: unless-stopped
+    tty: true
+    env_file:
+      - ./be-phpiggy/.env
+    environment:
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - net-phpiggy
+
+  php:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./be-phpiggy:/var/www/html:delegated
+    networks:
+      - net-phpiggy
+
+  composer:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+    volumes:
+      - ./be-phpiggy:/var/www/html
+    depends_on:
+      - php
+    entrypoint: [ 'composer', '--ignore-platform-reqs' ]
+    networks:
+      - net-phpiggy
