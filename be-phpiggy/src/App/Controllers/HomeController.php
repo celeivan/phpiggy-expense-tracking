@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-class HomeController
+class HomeController extends Controller
 {
     public function home()
     {
-        echo "Home Page";
+        echo $this->view->render('index.php', ['title' => "Home Page"]);
     }
 }
