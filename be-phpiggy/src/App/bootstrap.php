@@ -9,4 +9,6 @@ use Framework\App;
 
 $app = new App();
 
+$app->get('/');
+
 return $app;
