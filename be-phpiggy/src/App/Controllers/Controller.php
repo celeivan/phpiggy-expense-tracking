@@ -8,10 +8,7 @@ use App\Config\Paths;
 
 class Controller
 {
-    protected TemplateEngine $view;
-
-    public function __construct()
+    public function __construct(protected TemplateEngine $view)
     {
-        $this->view = new TemplateEngine(Paths::VIEWS);
     }
 }
