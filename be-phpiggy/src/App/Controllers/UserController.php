@@ -5,8 +5,13 @@ namespace App\Controllers;
 
 class UserController extends Controller
 {
-    public function register()
+    public function registerView()
     {
         echo $this->view->render('register.php', ['title' => "User Register"]);
+    }
+
+    public function register()
+    {
+        dd($_POST);
     }
 }
