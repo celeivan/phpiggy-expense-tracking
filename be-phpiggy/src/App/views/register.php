@@ -7,7 +7,7 @@
         <!-- Email -->
         <label class="block">
             <span class="text-gray-700">Email address</span>
-            <input type="email" name="email"
+            <input value="<?= e($oldFormData['email'] ?? '') ?>" type="email" name="email"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 placeholder="john@example.com" />
             <?php if (array_key_exists('email', $errors)): ?>
@@ -19,7 +19,7 @@
         <!-- Age -->
         <label class="block">
             <span class="text-gray-700">Age</span>
-            <input type="number" name="age"
+            <input type="number" value="<?= e($oldFormData['age'] ?? '') ?>" name="age"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 placeholder="" />
             <?php if (array_key_exists('age', $errors)): ?>
@@ -33,9 +33,9 @@
             <span class="text-gray-700">Country</span>
             <select name="country"
                 class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <option value="USA">USA</option>
-                <option value="Canada">Canada</option>
-                <option value="Mexico">Mexico</option>
+                <option <?= isset($oldFormData['country']) && $oldFormData['country'] === 'USA' ? "selected='selected'" : '' ?> value="USA">USA</option>
+                <option <?= isset($oldFormData['country']) && $oldFormData['country'] === 'Canada' ? "selected='selected'" : '' ?> value="Canada">Canada</option>
+                <option <?= isset($oldFormData['country']) && $oldFormData['country'] === 'Mexico' ? "selected='selected'" : '' ?> value="Mexico">Mexico</option>
                 <option value="Invalid">Invalid Country</option>
             </select>
             <?php if (array_key_exists('country', $errors)): ?>
@@ -47,7 +47,7 @@
         <!-- Social Media URL -->
         <label class="block">
             <span class="text-gray-700">Social Media URL</span>
-            <input type="text" name="socialMediaUrl"
+            <input type="text" value="<?= e($oldFormData['socialMediaUrl'] ?? '') ?>" name="socialMediaUrl"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 placeholder="" />
             <?php if (array_key_exists('socialMediaUrl', $errors)): ?>
@@ -85,7 +85,7 @@
             <div class="mt-2">
                 <div>
                     <label class="inline-flex items-center">
-                        <input name="termsAndConditions"
+                        <input name="termsAndConditions" <?= isset($oldFormData['termsAndConditions']) && $oldFormData['termsAndConditions'] ? "checked='checked'" : '' ?>
                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
                             type="checkbox" />
                         <span class="ml-2">I accept the terms of service.</span>
